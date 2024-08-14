@@ -1,0 +1,18 @@
+{
+  "name": "bun-crawler-server",
+  "module": "src/main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch ./src/main.ts",
+    "start": "bun run ./src/main.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "tsx": "^4.17.0"
+  }
+}
