@@ -1,5 +1,7 @@
 {
   "name": "bun-crawler-server",
+  "private": true,
+  "version": "0.0.1",
   "module": "src/main.ts",
   "type": "module",
   "scripts": {
