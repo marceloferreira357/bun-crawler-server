@@ -2,14 +2,15 @@
   "name": "bun-crawler-server",
   "private": true,
   "version": "0.0.1",
-  "module": "src/main.ts",
+  "module": "./src/main.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch ./src/main.ts",
-    "start": "bun run ./src/main.ts"
+    "dev": "tsx watch --env-file=.env ./src/main.ts",
+    "start": "bun run --env-file=.env ./src/main.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/compression": "^1.7.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -19,6 +20,8 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "http-status": "^1.7.4",
+    "pino": "^9.3.2",
+    "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "socket.io": "^4.7.5",
     "tsx": "^4.17.0"
