@@ -4,7 +4,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { logger } from "../common/logger";
-import type { ClientSocket } from "../common/types";
+import type { ClientSocket, ServerEvent } from "../common/types";
 import {
   handleOnConnectEvent,
   handleOnDisconnectEvent,
@@ -50,15 +50,7 @@ export const serverListen = (port: number) => {
   });
 };
 
-export const serverEmit = ({
-  to,
-  event,
-  args = [],
-}: {
-  to?: string | string[];
-  event: string;
-  args?: any[];
-}) => {
+export const serverEmit = ({ to, event, args = [] }: ServerEvent) => {
   if (to) {
     io.to(to).emit(event, ...args);
   } else {
