@@ -57,3 +57,8 @@ export const serverEmit = ({ to, event, args = [] }: ServerEvent) => {
     io.emit(event, ...args);
   }
 };
+
+export const serverGetClients = async (room?: string) => {
+  const sockets = room ? await io.in(room).fetchSockets() : io.fetchSockets();
+  return sockets;
+};
