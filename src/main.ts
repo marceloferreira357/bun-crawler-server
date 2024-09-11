@@ -1,4 +1,10 @@
-import { serverListen } from "./network/server";
+import { gameLoop } from "./core/gameLoop";
+import { serverListen } from "./network/webSocketServer";
 
-const port = Number(process.env.SERVER_PORT);
-serverListen(port);
+const main = () => {
+  const port = Number(process.env.SERVER_PORT);
+
+  serverListen(port, gameLoop);
+};
+
+main();

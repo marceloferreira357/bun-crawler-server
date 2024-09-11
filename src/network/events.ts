@@ -1,12 +1,16 @@
 import { logger } from "../common/logger";
 import type { ClientSocket } from "../common/types";
-import { serverEmit, serverGetClients } from "./server";
+import { setIsPlayerMoving } from "../core/player";
+import {
+  addPlayerToScene,
+  getPlayerScene,
+  removePlayerFromScene,
+} from "../core/scenes/scene";
+import { isServerFull, serverEmit } from "../core/webSocket";
 
 export const handleOnConnectEvent = async (socket: ClientSocket) => {
-  const maxClients = Number(process.env.MAX_CLIENTS);
-  const connectedClients = await serverGetClients();
-
-  if (connectedClients?.length > maxClients) {
+  const disconnectPlayer = await isServerFull();
+  if (disconnectPlayer) {
     logger.warn(`Server is full, disconnecting player: ${socket.id}`);
     serverEmit({
       to: socket.id,
@@ -15,17 +19,15 @@ export const handleOnConnectEvent = async (socket: ClientSocket) => {
     return;
   }
 
-  logger.info(
-    `A player connected: ${socket.id}, connected clients: ${connectedClients.length}`
-  );
+  addPlayerToScene(socket, "lobby");
+  logger.info(`A player connected: ${socket.id}`);
 };
 
 export const handleOnDisconnectEvent = (socket: ClientSocket) => {
-  socket.on("disconnect", async () => {
-    const connectedClients = await serverGetClients();
-    logger.info(
-      `A player disconnected: ${socket.id}, connected clients: ${connectedClients.length}`
-    );
+  socket.on("disconnect", () => {
+    const scene = getPlayerScene(socket);
+    removePlayerFromScene(socket, scene);
+    logger.info(`A player disconnected: ${socket.id}`);
   });
 };
 
@@ -36,5 +38,12 @@ export const handleOnPingEvent = (socket: ClientSocket) => {
       event: "pong",
       args,
     });
+  });
+};
+
+export const handleOnPlayerMovementEvent = (socket: ClientSocket) => {
+  socket.on("player_movement", (...args: any[]) => {
+    const scene = getPlayerScene(socket);
+    setIsPlayerMoving(socket, scene, args[0], args[1]);
   });
 };
