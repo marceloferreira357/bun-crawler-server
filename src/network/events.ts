@@ -9,7 +9,6 @@ import { setIsPlayerMoving } from "../core/player";
 import {
   addPlayerToScene,
   getPlayerScene,
-  getPlayerSceneFromScenesState,
   removePlayerFromScene,
 } from "../core/scenes/scene";
 import { isServerFull, serverEmit } from "./webSocket";
@@ -37,15 +36,19 @@ export const handleOnConnectEvent = async (socket: ClientSocket) => {
 };
 
 export const handleOnDisconnectEvent = (socket: ClientSocket) => {
-  socket.on(Events.DISCONNECT, () => {
+  socket.on(Events.DISCONNECT, async () => {
     const scene = getPlayerScene(socket);
-    removePlayerFromScene(socket, scene);
-
-    serverEmit({
-      to: getPlayerSceneFromScenesState(socket),
-      event: Events.PLAYER_DISCONNECTED,
-      args: [socket.id],
-    });
+    const playerSceneFromScenesState = await removePlayerFromScene(
+      socket,
+      scene
+    );
+    if (playerSceneFromScenesState) {
+      serverEmit({
+        to: playerSceneFromScenesState,
+        event: Events.PLAYER_DISCONNECTED,
+        args: [socket.id],
+      });
+    }
     logger.warn(`Player ${socket.id} disconnected`);
   });
 };

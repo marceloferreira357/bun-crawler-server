@@ -72,13 +72,18 @@ export const removePlayerFromScene = async (
     );
     await socket.leave(scene);
     logger.info(`Player ${socket.id} removed from scene ${scene}`);
+    return scene;
   } else {
-    const scene = getPlayerSceneFromScenesState(socket)!;
+    const scene = getPlayerSceneFromScenesState(socket);
+    if (!scene) {
+      return;
+    }
     const { players } = scenesState[scene];
     scenesState[scene].players = players.filter(
       (player) => player.id !== socket.id
     );
     logger.info(`Player ${socket.id} removed from scene ${scene}`);
+    return scene;
   }
 };
 
