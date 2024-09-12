@@ -1,3 +1,4 @@
+import { maxFps } from "../common/constants";
 import { frameDetails, scenesState } from "../common/globalState";
 import { Events, type SceneVariant } from "../common/types";
 import { serverEmit } from "../network/webSocket";
@@ -18,6 +19,6 @@ export const gameLoop = () => {
     });
   }
 
-  const frameInterval = 1000 / Number(process.env.MAX_FPS);
+  const frameInterval = 1000 / maxFps;
   setTimeout(gameLoop, frameInterval);
 };

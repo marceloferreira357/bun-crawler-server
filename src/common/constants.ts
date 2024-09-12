@@ -1,5 +1,6 @@
 import type { PlayerDefaultAttributes } from "./types";
 
+export const maxFps = 60;
 export const defaultVelocity = 0.4;
 
 export const playerDefaultAttributes: PlayerDefaultAttributes = {
