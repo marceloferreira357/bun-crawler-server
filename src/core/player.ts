@@ -1,8 +1,11 @@
+import { defaultVelocity, playerDefaultAttributes } from "../common/constants";
 import { frameDetails, scenesState } from "../common/globalState";
 import type {
   ClientSocket,
   Direction,
   Player,
+  PlayerGender,
+  PlayerVariant,
   SceneVariant,
 } from "../common/types";
 
@@ -12,50 +15,63 @@ export const setIsPlayerMoving = (
   direction: Direction,
   isMoving: boolean
 ) => {
-  scenesState[scene].players = scenesState[scene].players.map((player) => ({
-    ...player,
-    direction: player.id === socket.id ? direction : player.direction,
-    isMoving: player.id === socket.id ? isMoving : player.isMoving,
-  }));
+  const { players } = scenesState[scene];
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].id === socket.id) {
+      players[i].direction = direction;
+      players[i].isMoving = isMoving;
+      break;
+    }
+  }
 };
 
 export const movePlayer = (player: Player) => {
   const { deltaTime } = frameDetails;
+  const velocity = defaultVelocity * deltaTime;
 
-  const velocity = 0.4 * deltaTime;
+  const { direction } = player;
+  const playerTargetPosition = { ...player.position };
 
-  const playerTargetPosition = {
-    ...player.position,
-  };
-
-  if (player.direction === "up") {
-    playerTargetPosition.y -= velocity;
-  }
-  if (player.direction === "down") {
-    playerTargetPosition.y += velocity;
-  }
-  if (player.direction === "left") {
-    playerTargetPosition.x -= velocity;
-  }
-  if (player.direction === "right") {
-    playerTargetPosition.x += velocity;
-  }
-  if (player.direction === "up_left") {
-    playerTargetPosition.y -= velocity;
-    playerTargetPosition.x -= velocity;
-  }
-  if (player.direction === "up_right") {
-    playerTargetPosition.y -= velocity;
-    playerTargetPosition.x += velocity;
-  }
-  if (player.direction === "down_left") {
-    playerTargetPosition.y += velocity;
-    playerTargetPosition.x -= velocity;
-  }
-  if (player.direction === "down_right") {
-    playerTargetPosition.y += velocity;
-    playerTargetPosition.x += velocity;
+  switch (direction) {
+    case "up":
+      playerTargetPosition.y -= velocity;
+      break;
+    case "down":
+      playerTargetPosition.y += velocity;
+      break;
+    case "left":
+      playerTargetPosition.x -= velocity;
+      break;
+    case "right":
+      playerTargetPosition.x += velocity;
+      break;
+    case "up_left":
+      playerTargetPosition.y -= velocity;
+      playerTargetPosition.x -= velocity;
+      break;
+    case "up_right":
+      playerTargetPosition.y -= velocity;
+      playerTargetPosition.x += velocity;
+      break;
+    case "down_left":
+      playerTargetPosition.y += velocity;
+      playerTargetPosition.x -= velocity;
+      break;
+    case "down_right":
+      playerTargetPosition.y += velocity;
+      playerTargetPosition.x += velocity;
+      break;
+    default:
+      throw new Error("Direction doesn't exist");
   }
 
   return playerTargetPosition;
+};
+
+export const getDefaultPlayerSize = (
+  variant: PlayerVariant,
+  gender: PlayerGender
+) => {
+  const { size } = playerDefaultAttributes[variant][gender];
+  return size;
 };

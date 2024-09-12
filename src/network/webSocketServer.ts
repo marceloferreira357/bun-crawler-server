@@ -19,9 +19,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(
-  compression({ filter: (req, res) => !req.headers["x-no-compression"] })
-);
+app.use(compression({ filter: (req, _) => !req.headers["x-no-compression"] }));
 
 const server = createServer(app);
 export let io: Server;

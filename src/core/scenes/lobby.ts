@@ -2,15 +2,13 @@ import { scenesState } from "../../common/globalState";
 import { movePlayer } from "../player";
 
 export const updateLobby = () => {
-  for (const player of scenesState.lobby.players) {
-    if (player) {
-      let playerTargetPosition = player.position;
+  const { players } = scenesState.lobby;
 
-      if (player.isMoving) {
-        playerTargetPosition = movePlayer(player);
-      }
+  for (const player of players) {
+    if (!player) continue;
 
-      player.position = { ...playerTargetPosition };
+    if (player.isMoving) {
+      player.position = movePlayer(player);
     }
   }
 };

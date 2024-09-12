@@ -1,5 +1,5 @@
 import type { ServerEvent } from "../common/types";
-import { io } from "../network/webSocketServer";
+import { io } from "./webSocketServer";
 
 export const serverEmit = ({ to, event, args = [] }: ServerEvent) => {
   if (to) {
@@ -9,14 +9,13 @@ export const serverEmit = ({ to, event, args = [] }: ServerEvent) => {
   }
 };
 
-export const serverGetClients = async (room?: string) => {
+export const getClients = async (room?: string) => {
   const sockets = room ? await io.in(room).fetchSockets() : io.fetchSockets();
   return sockets;
 };
 
 export const isServerFull = async () => {
   const maxClients = Number(process.env.MAX_CLIENTS);
-  const connectedClients = await serverGetClients();
-
+  const connectedClients = await getClients();
   return connectedClients?.length > maxClients;
 };

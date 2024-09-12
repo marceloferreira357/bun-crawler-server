@@ -1,6 +1,7 @@
 import { frameDetails, scenesState } from "../common/globalState";
+import { Events, type SceneVariant } from "../common/types";
+import { serverEmit } from "../network/webSocket";
 import { updateLobby } from "./scenes/lobby";
-import { serverEmit } from "./webSocket";
 
 export const gameLoop = () => {
   const now = Date.now();
@@ -8,10 +9,12 @@ export const gameLoop = () => {
   frameDetails.lastUpdate = now;
 
   if (scenesState.lobby.players.length > 0) {
+    const scene: SceneVariant = "lobby";
     updateLobby();
     serverEmit({
-      event: "update_scene",
-      args: ["lobby", scenesState.lobby.players],
+      to: scene,
+      event: Events.UPDATE_SCENE,
+      args: [scene, scenesState.lobby.players],
     });
   }
 

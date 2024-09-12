@@ -4,7 +4,7 @@ export type ClientSocket = Socket;
 
 export type ServerEvent = {
   to?: string | string[];
-  event: string;
+  event: Events;
   args?: any[];
 };
 
@@ -52,7 +52,22 @@ export type Player = {
 
 export type PlayerMovement = Pick<Player, "id" | "direction" | "isMoving">;
 
-export type Events = "disconnect" | "ping" | "player_movement";
+export type PlayerDefaultAttributes = {
+  [key in PlayerVariant]: {
+    [key in PlayerGender]: {
+      size: PixelSize;
+    };
+  };
+};
+
+export enum Events {
+  DISCONNECT = "disconnect",
+  PING = "ping",
+  PLAYER_MOVEMENT = "player_movement",
+  SERVER_FULL = "server_full",
+  PONG = "pong",
+  UPDATE_SCENE = "update_scene",
+}
 
 export type ScenesState = {
   [key in SceneVariant]: {
