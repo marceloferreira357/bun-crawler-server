@@ -1,6 +1,6 @@
 # Bun Crawler Server
 
-The **Bun Crawler Server** is the backend server for the [Bun Crawler Client](https://github.com/marceloferreira357/bun-crawler-server). This project handles all the game logic, including player movements, scene updates, and client connections. The server is responsible for managing real-time communication with the clients and keeping the game state consistent across all connected players.
+The **Bun Crawler Server** is the backend server for the [Bun Crawler Client](https://github.com/marceloferreira357/bun-crawler-client). This project handles all the game logic, including player movements, scene updates, and client connections. The server is responsible for managing real-time communication with the clients and keeping the game state consistent across all connected players.
 
 ## Getting Started
 
