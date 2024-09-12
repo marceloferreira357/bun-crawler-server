@@ -65,7 +65,3 @@ export enum Events {
 ## Contributing
 
 Feel free to open issues or submit pull requests if you'd like to contribute to the project.
-
-## License
-
-[MIT](LICENSE)
