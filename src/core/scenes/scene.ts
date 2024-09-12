@@ -1,4 +1,5 @@
 import { scenesState } from "../../common/globalState";
+import { logger } from "../../common/logger";
 import type {
   ClientSocket,
   Player,
@@ -42,8 +43,22 @@ export const addPlayerToScene = async (
   };
 
   await socket.join(scene);
+  logger.info(`Player ${socket.id} added to scene ${scene}`);
   const { players } = scenesState[scene];
   players.push(newPlayer);
+};
+
+export const getPlayerSceneFromScenesState = (socket: ClientSocket) => {
+  for (const scene in scenesState) {
+    const { players } = scenesState[scene as SceneVariant];
+
+    const playerExistsOnScene = players.some(
+      (player) => player.id === socket.id
+    );
+    if (playerExistsOnScene) {
+      return scene as SceneVariant;
+    }
+  }
 };
 
 export const removePlayerFromScene = async (
@@ -56,14 +71,14 @@ export const removePlayerFromScene = async (
       (player) => player.id !== socket.id
     );
     await socket.leave(scene);
+    logger.info(`Player ${socket.id} removed from scene ${scene}`);
   } else {
-    for (const sceneKey of Object.keys(scenesState)) {
-      const scene = sceneKey as SceneVariant;
-      const { players } = scenesState[scene];
-      scenesState[scene].players = players.filter(
-        (player) => player.id !== socket.id
-      );
-    }
+    const scene = getPlayerSceneFromScenesState(socket)!;
+    const { players } = scenesState[scene];
+    scenesState[scene].players = players.filter(
+      (player) => player.id !== socket.id
+    );
+    logger.info(`Player ${socket.id} removed from scene ${scene}`);
   }
 };
 

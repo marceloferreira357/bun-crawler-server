@@ -67,6 +67,8 @@ export enum Events {
   SERVER_FULL = "server_full",
   PONG = "pong",
   UPDATE_SCENE = "update_scene",
+  PLAYER_CONNECTED = "player_connected",
+  PLAYER_DISCONNECTED = "player_disconnected",
 }
 
 export type ScenesState = {
