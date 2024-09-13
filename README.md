@@ -49,6 +49,8 @@ export enum Events {
   UPDATE_SCENE = "update_scene",
   PLAYER_CONNECTED = "player_connected",
   PLAYER_DISCONNECTED = "player_disconnected",
+  PLAYER_MESSAGE = "player_message_send",
+  PLAYER_MESSAGE_SCENE = "player_message_scene",
 }
 ```
 
@@ -61,6 +63,8 @@ export enum Events {
 - **UPDATE_SCENE**: Sends the current state of the game (scene) to all clients.
 - **PLAYER_CONNECTED**: Emitted when a new player successfully connects to the server.
 - **PLAYER_DISCONNECTED**: Emitted when a player leaves the game.
+- **PLAYER_MESSAGE**: Received when a player sends a message.
+- **PLAYER_MESSAGE_SCENE**: The server broadcasts the player message to all clients
 
 ## Contributing
 

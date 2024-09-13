@@ -69,6 +69,8 @@ export enum Events {
   UPDATE_SCENE = "update_scene",
   PLAYER_CONNECTED = "player_connected",
   PLAYER_DISCONNECTED = "player_disconnected",
+  PLAYER_MESSAGE = "player_message_send",
+  PLAYER_MESSAGE_SCENE = "player_message_scene",
 }
 
 export type ScenesState = {

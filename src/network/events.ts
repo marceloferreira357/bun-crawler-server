@@ -71,3 +71,20 @@ export const handleOnPlayerMovementEvent = (socket: ClientSocket) => {
     setIsPlayerMoving(socket, scene, direction, isMoving);
   });
 };
+
+export const handleOnPlayerMessageEvent = (socket: ClientSocket) => {
+  socket.on(Events.PLAYER_MESSAGE, (...args: any[]) => {
+    const scene = getPlayerScene(socket);
+
+    const socketId = socket.id;
+    const message = args[0];
+
+    serverEmit({
+      to: scene,
+      event: Events.PLAYER_MESSAGE_SCENE,
+      args: [socketId, message],
+    });
+
+    logger.info(`${socketId}: ${message}`);
+  });
+};

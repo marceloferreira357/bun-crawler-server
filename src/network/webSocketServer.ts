@@ -9,6 +9,7 @@ import {
   handleOnConnectEvent,
   handleOnDisconnectEvent,
   handleOnPingEvent,
+  handleOnPlayerMessageEvent,
   handleOnPlayerMovementEvent,
 } from "./events";
 
@@ -36,6 +37,7 @@ export const serverListen = (port?: number, listeningListener?: () => void) => {
       handleOnDisconnectEvent(socket);
       handleOnPingEvent(socket);
       handleOnPlayerMovementEvent(socket);
+      handleOnPlayerMessageEvent(socket);
     });
     logger.info(`Server listening on port ${port}`);
     if (listeningListener) {
