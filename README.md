@@ -41,14 +41,14 @@ The server communicates with the client by emitting various events. Below is a l
 
 ```typescript
 export enum Events {
-  DISCONNECT = "disconnect", // Client disconnected from the server
-  PING = "ping", // Sent to the client to check the connection
-  PLAYER_MOVEMENT = "player_movement", // Update on player movement
-  SERVER_FULL = "server_full", // Sent when the server reaches the max client limit
-  PONG = "pong", // Response to a ping event
-  UPDATE_SCENE = "update_scene", // Send the current game scene to the client
-  PLAYER_CONNECTED = "player_connected", // A new player connected to the server
-  PLAYER_DISCONNECTED = "player_disconnected", // A player disconnected from the server
+  DISCONNECT = "disconnect",
+  PING = "ping",
+  PLAYER_MOVEMENT = "player_movement",
+  SERVER_FULL = "server_full",
+  PONG = "pong",
+  UPDATE_SCENE = "update_scene",
+  PLAYER_CONNECTED = "player_connected",
+  PLAYER_DISCONNECTED = "player_disconnected",
 }
 ```
 
